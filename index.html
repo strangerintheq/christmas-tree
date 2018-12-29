@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden
+    }
+
+    canvas {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<body>
+<script src="js/glx.js"></script>
+<script src="js/ShaderLoader.js"></script>
+<script src="js/FullScreenTriangle.js"></script>
+<script src="js/mouse3d.js"></script>
+<script>
+    Mouse3D.init();
+
+    ShaderLoader.load('glsl/tree.glsl', init);
+
+    function init(fragCode) {
+
+        let fst = FullScreenTriangle(fragCode);
+        let resolution = fst.triangleProgram.uniform('2f', 'resolution');
+        //let mouse = fst.triangleProgram.uniform('2f', 'mouse');
+        //let time = fst.triangleProgram.uniform('1f', 'time');
+        let eye = fst.triangleProgram.uniform('3f', 'eye');
+        addEventListener('mousemove', drawFrame);
+        Mouse3D.callback(drawFrame);
+
+        function drawFrame() {
+            resolution.set(fst.gl.drawingBufferWidth, fst.gl.drawingBufferHeight);
+            //mouse.set(e ? e.clientX : 0, e ? fst.gl.drawingBufferHeight - e.clientY : 0);
+            eye.set(Mouse3D.eye[0], Mouse3D.eye[1], Mouse3D.eye[2]);
+            fst.draw();
+        }
+    }
+
+</script>
+
+</body>
+</html>
