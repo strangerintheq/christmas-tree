@@ -7,6 +7,8 @@ uniform vec2 resolution;
 uniform vec3 eye;
 
 #pragma import glsl/sdf.glsl
+#pragma import glsl/noise.glsl
+#pragma import glsl/fbm.glsl
 #pragma import glsl/scene.glsl
 
 #pragma import glsl/rayDirection.glsl
@@ -22,7 +24,7 @@ void main(void) {
     mat4 viewToWorld = viewMatrix(eye, vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
     vec3 worldDir = (viewToWorld * vec4(direction, 0.0)).xyz;
     vec2 dist = castRay(eye, worldDir);
-    if (dist.x > 20.) {
+    if (dist.x > 44.) {
         gl_FragColor = vec4(0.9, 0.9, 0.9, 1.0);
     } else {
         vec3 pt = eye + dist.x * worldDir;
