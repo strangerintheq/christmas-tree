@@ -1,5 +1,6 @@
 
-//
+// ro - ray origin
+// rd - ray direction
 
 vec2 castRay( in vec3 ro, in vec3 rd ) {
 
@@ -10,7 +11,7 @@ vec2 castRay( in vec3 ro, in vec3 rd ) {
 
     for ( int i=0; i<64; i++ ) {
 	    float precis = 0.0004*t;
-	    vec2 res = scene( ro+rd*t );
+	    vec2 res = map( ro+rd*t );
         if ( res.x<precis || t>tmax )
             break;
         t += res.x;

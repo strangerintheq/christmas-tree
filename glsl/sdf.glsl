@@ -3,6 +3,26 @@
 
 
 // distance functions
+float dot2( in vec2 v ) {
+    return dot(v,v);
+}
+
+float sdCappedCone( in vec3 p, in float h, in float r1, in float r2 ){
+    vec2 q = vec2( length(p.xz), p.y );
+    vec2 k1 = vec2(r2,h);
+    vec2 k2 = vec2(r2-r1,2.0*h);
+    vec2 ca = vec2(q.x-min(q.x,(q.y < 0.0)?r1:r2), abs(q.y)-h);
+    vec2 cb = q - k1 + k2*clamp( dot(k1-q,k2)/dot2(k2), 0.0, 1.0 );
+    float s = (cb.x < 0.0 && ca.y < 0.0) ? -1.0 : 1.0;
+    return s*sqrt( min(dot2(ca),dot2(cb)) );
+}
+
+float sdCone( in vec3 p, in vec3 c ){
+    vec2 q = vec2( length(p.xz), p.y );
+    float d1 = -q.y-c.z;
+    float d2 = max( dot(q,c.xy), q.y);
+    return length(max(vec2(d1,d2),0.0)) + min(max(d1,d2), 0.);
+}
 
 float sdSphere( vec3 p, float s ){
     return length(p)-s;
@@ -53,3 +73,7 @@ vec3 opTwist( vec3 p ){
     mat2   m = mat2(c,-s,s,c);
     return vec3(m*p.xz,p.y);
 }
+
+float opSmoothU( float d1, float d2, float k ) {
+    float h = clamp( 0.5 + 0.5*(d2-d1)/k, 0.0, 1.0 );
+    return mix( d2, d1, h ) - k*h*(1.0-h); }
