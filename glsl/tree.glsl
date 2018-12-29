@@ -15,7 +15,7 @@ uniform vec3 eye;
 #pragma import glsl/normal.glsl
 #pragma import glsl/phong.glsl
 #pragma import glsl/softShadow.glsl
-
+#pragma import glsl/ao.glsl
 
 void main(void) {
 	vec3 direction = rayDirection(60.0, resolution);
@@ -23,11 +23,13 @@ void main(void) {
     vec3 worldDir = (viewToWorld * vec4(direction, 0.0)).xyz;
     vec2 dist = castRay(eye, worldDir);
     if (dist.x > 20.) {
-        gl_FragColor = vec4(0.1, 0.4, 0.1, 1.0);
+        gl_FragColor = vec4(0.9, 0.9, 0.9, 1.0);
     } else {
         vec3 pt = eye + dist.x * worldDir;
-        vec3 color = phong(pt, eye, dist.y);
-        color *= softShadow( pt, vec3(-0.4, 0.7, -0.6), 0.02, 2.5 );
+        vec3 nor = estimateNormal( pt );
+        float occ = ao( pt, nor );
+        vec3 color = phong(pt, eye, dist.y)*occ;
+        color += color * softShadow( pt, vec3(-0.14, 0.7, -1.6), 0.01, 2.2)*0.7;
         gl_FragColor = vec4(color, 1.0);
     }
 }

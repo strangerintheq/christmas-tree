@@ -1,14 +1,14 @@
 
-const vec3 K_a = vec3(0.3, 0.2, 0.2);
-const vec3 K_d = vec3(0.2, 0.4, 0.7);
-const vec3 K_s = vec3(1.0, 1.0, 1.0);
+const vec3 K_a = vec3(.3, .2, .2);
+const vec3 K_d = vec3(.2, .4, .7);
+const vec3 K_s = vec3(.1, .1, .1);
 
-const float shininess = 10.0;
+const float shininess = 3.5;
 
-const vec3 light1Pos = vec3(-20.0, -20.0, -20.0);
-const vec3 light1Intensity = vec3(0.4, 0.4, 0.4);
+const vec3 light1Pos = vec3(-20.0, 10.0, -22.0);
+const vec3 light1Intensity = vec3(0.7, 0.7, 0.7);
 
-const vec3 light2Pos = vec3(20.0, 20.0, 20.0);
+const vec3 light2Pos = vec3(11.0, 10.0, 11.0);
 const vec3 light2Intensity = vec3(0.4, 0.4, 0.4);
 
 /**

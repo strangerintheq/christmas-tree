@@ -6,7 +6,6 @@
 float dot2( in vec2 v ) {
     return dot(v,v);
 }
-
 float sdCappedCone( in vec3 p, in float h, in float r1, in float r2 ){
     vec2 q = vec2( length(p.xz), p.y );
     vec2 k1 = vec2(r2,h);
@@ -17,35 +16,14 @@ float sdCappedCone( in vec3 p, in float h, in float r1, in float r2 ){
     return s*sqrt( min(dot2(ca),dot2(cb)) );
 }
 
-float sdCone( in vec3 p, in vec3 c ){
-    vec2 q = vec2( length(p.xz), p.y );
-    float d1 = -q.y-c.z;
-    float d2 = max( dot(q,c.xy), q.y);
-    return length(max(vec2(d1,d2),0.0)) + min(max(d1,d2), 0.);
+// vertical
+float sdCylinder( vec3 p, vec2 h ){
+  vec2 d = abs(vec2(length(p.xz),p.y)) - h;
+  return min(max(d.x,d.y),0.0) + length(max(d,0.0));
 }
 
 float sdSphere( vec3 p, float s ){
     return length(p)-s;
-}
-
-float sdBox( vec3 p, vec3 b ){
-    vec3 d = abs(p) - b;
-    return min(max(d.x,max(d.y,d.z)),0.0) + length(max(d,0.0));
-}
-
-float sdEllipsoid( in vec3 p, in vec3 r ) {
-    float k0 = length(p/r);
-    float k1 = length(p/(r*r));
-    return k0*(k0-1.0)/k1;
-}
-
-float sdRoundBox( in vec3 p, in vec3 b, in float r ) {
-    vec3 q = abs(p) - b;
-    return min(max(q.x,max(q.y,q.z)),0.0) + length(max(q,0.0)) - r;
-}
-
-float sdTorus( vec3 p, vec2 t ){
-    return length( vec2(length(p.xz)-t.x,p.y) )-t.y;
 }
 
 float sdPlane( vec3 p , float down){
