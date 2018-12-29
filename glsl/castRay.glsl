@@ -4,12 +4,12 @@
 
 vec2 castRay( in vec3 ro, in vec3 rd ) {
 
-    float tmin = 0.2;
+    float tmin = 0.1;
     float tmax = 44.0;
     float t = tmin;
     float m = -1.0;
 
-    for ( int i=0; i<128; i++ ) {
+    for ( int i=0; i<96; i++ ) {
 	    float precis = 0.0001*t;
 	    vec2 res = map( ro+rd*t );
         if ( res.x<precis || t>tmax )

@@ -30,6 +30,9 @@ float sdPlane( vec3 p , float down){
 	return p.y - down;
 }
 
+float plane(vec3 p, vec3 n, float offs) {
+    return dot(p, n) - offs;
+}
 
 // distance functions operations
 
